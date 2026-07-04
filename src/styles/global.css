@@ -119,6 +119,91 @@ h1 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.combat-grid {
+  grid-template-columns: minmax(280px, 1.4fr) minmax(240px, 0.6fr);
+}
+
+.enemy-button {
+  display: grid;
+  width: 100%;
+  min-height: 210px;
+  place-items: center;
+  gap: 8px;
+  color: #f4efe8;
+  background: linear-gradient(160deg, rgba(135, 38, 30, 0.8), rgba(46, 31, 24, 0.94));
+  border: 1px solid rgba(226, 161, 95, 0.26);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.enemy-button strong {
+  font-size: 1.6rem;
+}
+
+.enemy-button em,
+.item-row em,
+.upgrade-row em {
+  color: #cbbba7;
+  font-style: normal;
+}
+
+.health-bar {
+  height: 14px;
+  margin: 12px 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.health-bar div {
+  height: 100%;
+  background: #d94335;
+  transition: width 160ms ease;
+}
+
+.list {
+  display: grid;
+  gap: 8px;
+}
+
+.item-row,
+.upgrade-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  color: #f4efe8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.upgrade-row {
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  margin: 10px 0;
+  color: #f4efe8;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+}
+
+.hint {
+  color: #cbbba7;
+}
+
 @media (max-width: 760px) {
   .app-layout {
     display: block;
@@ -146,5 +231,9 @@ h1 {
     min-height: 48px;
     padding: 4px;
     font-size: 0.78rem;
+  }
+
+  .combat-grid {
+    grid-template-columns: 1fr;
   }
 }
