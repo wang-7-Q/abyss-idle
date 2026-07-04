@@ -11,7 +11,8 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage
 } from '../game/save';
-import type { GameState, StatKey } from '../game/types';
+import { getSkillUpgradeCost } from '../game/skills';
+import type { GameState, SkillId, StatKey } from '../game/types';
 import { calculateGoldUpgradeCost } from '../game/formulas';
 
 interface GameStore {
@@ -20,6 +21,8 @@ interface GameStore {
   tick: (elapsedMs: number, now: number) => void;
   clickEnemy: (now: number) => void;
   upgradeStat: (stat: StatKey, now: number) => void;
+  equipItem: (itemId: string, now: number) => void;
+  upgradeSkill: (skillId: SkillId, now: number) => void;
   exportSave: () => string;
   importSave: (code: string) => void;
   resetGame: (now: number) => void;
@@ -71,6 +74,48 @@ export const useGameStore = create<GameStore>((set, get) => ({
         upgradeLevels: {
           ...game.character.upgradeLevels,
           [stat]: currentLevel + 1
+        }
+      },
+      lastSavedAt: now
+    };
+    set({ game: persist(next) });
+  },
+
+  equipItem: (itemId, now) => {
+    const game = get().game;
+    const item = game.inventory.find((entry) => entry.id === itemId);
+    if (!item) return;
+
+    const next: GameState = {
+      ...game,
+      equipment: {
+        ...game.equipment,
+        [item.slot]: item
+      },
+      inventory: game.inventory.filter((entry) => entry.id !== itemId),
+      recentDrops: [`已装备 ${item.name}`, ...game.recentDrops].slice(0, 8),
+      lastSavedAt: now
+    };
+    set({ game: persist(next) });
+  },
+
+  upgradeSkill: (skillId, now) => {
+    const game = get().game;
+    const skill = game.skills[skillId];
+    const cost = getSkillUpgradeCost(skill);
+    if (game.character.gold < cost) return;
+
+    const next: GameState = {
+      ...game,
+      character: {
+        ...game.character,
+        gold: game.character.gold - cost
+      },
+      skills: {
+        ...game.skills,
+        [skillId]: {
+          ...skill,
+          level: skill.level + 1
         }
       },
       lastSavedAt: now

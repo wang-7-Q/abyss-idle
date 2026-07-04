@@ -4,6 +4,7 @@ import { Panel } from '../shared/Panel';
 
 export function EquipmentView() {
   const game = useGameStore((state) => state.game);
+  const equipItem = useGameStore((state) => state.equipItem);
 
   return (
     <div className="view-grid">
@@ -22,11 +23,16 @@ export function EquipmentView() {
       <Panel title="背包">
         {game.inventory.length === 0 ? <p>还没有装备掉落。</p> : null}
         {game.inventory.map((item) => (
-          <div className={`item-row rarity-${item.rarity}`} key={item.id}>
+          <button
+            className={`item-row rarity-${item.rarity}`}
+            key={item.id}
+            type="button"
+            onClick={() => equipItem(item.id, Date.now())}
+          >
             <span>{item.name}</span>
             <strong>等级 {item.itemLevel}</strong>
-            <em>评分 {getEquipmentScore(item)}</em>
-          </div>
+            <em>装备</em>
+          </button>
         ))}
       </Panel>
     </div>
