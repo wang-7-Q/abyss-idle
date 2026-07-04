@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { CharacterView } from '../features/character/CharacterView';
 import { CombatView } from '../features/combat/CombatView';
 import { DungeonView } from '../features/dungeon/DungeonView';
 import { EquipmentView } from '../features/equipment/EquipmentView';
 import { SettingsView } from '../features/settings/SettingsView';
-import { SkillsView } from '../features/skills/SkillsView';
 import { useGameStore } from '../store/gameStore';
 import { type AppTab, NAV_ITEMS } from './navigation';
 
@@ -45,12 +43,8 @@ function renderTab(tab: AppTab) {
       return <CombatView />;
     case 'equipment':
       return <EquipmentView />;
-    case 'skills':
-      return <SkillsView />;
     case 'dungeon':
       return <DungeonView />;
-    case 'character':
-      return <CharacterView />;
     case 'settings':
       return <SettingsView />;
   }

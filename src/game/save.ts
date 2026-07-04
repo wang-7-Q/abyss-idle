@@ -1,9 +1,10 @@
+import { normalizeSkills } from './skills';
 import type { GameState } from './types';
 
 export const SAVE_KEY = 'incremental-dungeon-save-v1';
 
 export function encodeSaveCode(state: GameState): string {
-  return btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+  return btoa(unescape(encodeURIComponent(JSON.stringify(normalizeGameState(state)))));
 }
 
 export function decodeSaveCode(code: string): GameState {
@@ -13,7 +14,7 @@ export function decodeSaveCode(code: string): GameState {
     if (!validateSaveData(data)) {
       throw new Error('存档码缺少必要字段');
     }
-    return data;
+    return normalizeGameState(data);
   } catch {
     throw new Error('存档码无效');
   }
@@ -35,7 +36,7 @@ export function validateSaveData(data: unknown): data is GameState {
 }
 
 export function saveToLocalStorage(state: GameState): void {
-  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+  localStorage.setItem(SAVE_KEY, JSON.stringify(normalizeGameState(state)));
 }
 
 export function loadFromLocalStorage(): GameState | null {
@@ -43,8 +44,15 @@ export function loadFromLocalStorage(): GameState | null {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw);
-    return validateSaveData(parsed) ? parsed : null;
+    return validateSaveData(parsed) ? normalizeGameState(parsed) : null;
   } catch {
     return null;
   }
+}
+
+function normalizeGameState(state: GameState): GameState {
+  return {
+    ...state,
+    skills: normalizeSkills(state.skills)
+  };
 }

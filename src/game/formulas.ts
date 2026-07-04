@@ -1,5 +1,5 @@
 import { BALANCE } from './balance';
-import type { EnemyState } from './types';
+import type { EnemyState, StatKey } from './types';
 
 export interface DamageInput {
   attack: number;
@@ -43,6 +43,23 @@ export function calculateEnemyForFloor(floor: number, isBoss: boolean): EnemySta
 export function calculateGoldUpgradeCost(level: number): number {
   const safeLevel = Math.max(1, Math.floor(level));
   return Math.floor(BALANCE.baseUpgradeCost * Math.pow(BALANCE.upgradeCostGrowth, safeLevel - 1));
+}
+
+export function calculateStatUpgradeGain(stat: StatKey, level: number): number {
+  const safeLevel = Math.max(1, Math.floor(level));
+  const gains: Record<StatKey, number> = {
+    attack: 2 + Math.floor(safeLevel * 0.8),
+    maxHealth: 10 + Math.floor(safeLevel * 3),
+    criticalChance: Number((0.004 + safeLevel * 0.0007).toFixed(3)),
+    criticalDamage: Number((0.04 + safeLevel * 0.006).toFixed(3)),
+    attackSpeed: Number((0.02 + safeLevel * 0.003).toFixed(3))
+  };
+  return gains[stat];
+}
+
+export function calculateExperienceForLevel(level: number): number {
+  const safeLevel = Math.max(1, Math.floor(level));
+  return Math.floor(80 * Math.pow(1.28, safeLevel - 1));
 }
 
 export function isBossFloor(floor: number): boolean {

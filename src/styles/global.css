@@ -129,6 +129,76 @@ h1 {
   grid-template-columns: minmax(280px, 1.4fr) minmax(240px, 0.6fr);
 }
 
+.main-upgrade-grid {
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+}
+
+.combat-view {
+  display: grid;
+  gap: 14px;
+}
+
+.combat-status-bar {
+  display: grid;
+  grid-template-columns: minmax(88px, auto) minmax(220px, 1fr) minmax(88px, auto);
+  gap: 10px;
+  align-items: stretch;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(226, 161, 95, 0.14), rgba(255, 255, 255, 0.045));
+  border: 1px solid rgba(226, 161, 95, 0.18);
+  border-radius: 8px;
+}
+
+.status-chip,
+.experience-summary {
+  min-height: 58px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.status-chip {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+}
+
+.status-chip span,
+.experience-copy span {
+  color: #cbbba7;
+  font-size: 0.78rem;
+}
+
+.status-chip strong,
+.experience-copy strong {
+  font-size: 1.15rem;
+}
+
+.experience-summary {
+  display: grid;
+  gap: 8px;
+}
+
+.experience-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.experience-bar {
+  height: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+}
+
+.experience-bar div {
+  height: 100%;
+  background: linear-gradient(90deg, #e2a15f, #f2cf7b);
+  transition: width 160ms ease;
+}
+
 .enemy-button {
   display: grid;
   width: 100%;
@@ -140,6 +210,44 @@ h1 {
   border: 1px solid rgba(226, 161, 95, 0.26);
   border-radius: 8px;
   cursor: pointer;
+}
+
+.auto-combat-toggle,
+.inventory-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 42px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  color: #f4efe8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.auto-combat-toggle.active {
+  color: #1c130c;
+  background: #e2a15f;
+}
+
+.inventory-action:disabled {
+  color: #8f8274;
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.inventory-action span {
+  color: #cbbba7;
+  font-size: 0.86rem;
+}
+
+.auto-combat-toggle.active span,
+.auto-combat-toggle.active {
+  color: #1c130c;
 }
 
 .enemy-button strong {
@@ -175,7 +283,7 @@ h1 {
 .item-row,
 .upgrade-row {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 10px;
   align-items: center;
   width: 100%;
@@ -185,6 +293,25 @@ h1 {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
+}
+
+.upgrade-row strong,
+.upgrade-row em,
+.item-row strong,
+.item-row em {
+  white-space: nowrap;
+}
+
+.equipment-card {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.equipment-stats {
+  margin: 0;
+  color: #cbbba7;
+  font-size: 0.86rem;
 }
 
 .upgrade-row {
@@ -204,6 +331,41 @@ textarea {
   color: #cbbba7;
 }
 
+.dungeon-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.dungeon-controls button,
+.floor-button {
+  min-height: 40px;
+  color: #f4efe8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dungeon-controls button:disabled {
+  color: #8f8274;
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.floor-jump-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.floor-button.active {
+  color: #1c130c;
+  background: #e2a15f;
+}
+
 @media (max-width: 760px) {
   .app-layout {
     display: block;
@@ -216,7 +378,7 @@ textarea {
     left: 0;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 4px;
     padding: 8px;
     border-top: 1px solid rgba(226, 161, 95, 0.16);
@@ -234,6 +396,23 @@ textarea {
   }
 
   .combat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-upgrade-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .combat-status-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .experience-summary {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .dungeon-controls {
     grid-template-columns: 1fr;
   }
 }

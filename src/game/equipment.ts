@@ -1,4 +1,5 @@
 import type {
+  CharacterStats,
   EquipmentItem,
   EquipmentRarity,
   EquipmentSlot,
@@ -80,6 +81,45 @@ export function getEquipmentScore(item: EquipmentItem): number {
     return sum + stat.value * weight;
   }, 0);
   return Math.floor(item.itemLevel * 2 + statScore * rarityMultiplier(item.rarity));
+}
+
+export function createEmptyEquipmentBonuses(): CharacterStats {
+  return {
+    attack: 0,
+    maxHealth: 0,
+    criticalChance: 0,
+    criticalDamage: 0,
+    attackSpeed: 0
+  };
+}
+
+export function calculateEquipmentBonuses(
+  equipment: Partial<Record<EquipmentSlot, EquipmentItem>>
+): CharacterStats {
+  const bonuses = createEmptyEquipmentBonuses();
+
+  Object.values(equipment).forEach((item) => {
+    if (!item) return;
+    [item.mainStat, ...item.secondaryStats].forEach((stat) => {
+      bonuses[stat.key] = Number((bonuses[stat.key] + stat.value).toFixed(3));
+    });
+  });
+
+  return bonuses;
+}
+
+export function applyEquipmentBonuses(
+  stats: CharacterStats,
+  equipment: Partial<Record<EquipmentSlot, EquipmentItem>>
+): CharacterStats {
+  const bonuses = calculateEquipmentBonuses(equipment);
+  return {
+    attack: stats.attack + bonuses.attack,
+    maxHealth: stats.maxHealth + bonuses.maxHealth,
+    criticalChance: Number((stats.criticalChance + bonuses.criticalChance).toFixed(3)),
+    criticalDamage: Number((stats.criticalDamage + bonuses.criticalDamage).toFixed(3)),
+    attackSpeed: Number((stats.attackSpeed + bonuses.attackSpeed).toFixed(3))
+  };
 }
 
 export function compareEquipmentPower(

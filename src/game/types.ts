@@ -51,7 +51,16 @@ export interface EnemyState {
   experienceReward: number;
 }
 
-export type SkillId = 'burst' | 'haste' | 'fortune';
+export type SkillId =
+  | 'burst'
+  | 'haste'
+  | 'fortune'
+  | 'execute'
+  | 'combo'
+  | 'insight'
+  | 'treasure'
+  | 'smelting'
+  | 'dragonSlayer';
 
 export interface SkillState {
   id: SkillId;
