@@ -48,3 +48,103 @@ h1 {
   margin: 0 0 12px;
   font-size: clamp(2rem, 7vw, 4rem);
 }
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.app-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: rgba(18, 16, 13, 0.92);
+  border-right: 1px solid rgba(226, 161, 95, 0.16);
+}
+
+.brand {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.brand span {
+  color: #e2a15f;
+  font-size: 0.8rem;
+}
+
+.brand strong {
+  font-size: 1.1rem;
+}
+
+.nav-button {
+  min-height: 44px;
+  color: #f4efe8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nav-button.active {
+  color: #1c130c;
+  background: #e2a15f;
+}
+
+.app-content {
+  min-width: 0;
+  padding: 18px;
+  padding-bottom: 88px;
+}
+
+.panel {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.stat-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 760px) {
+  .app-layout {
+    display: block;
+  }
+
+  .app-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    padding: 8px;
+    border-top: 1px solid rgba(226, 161, 95, 0.16);
+    border-right: 0;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .nav-button {
+    min-height: 48px;
+    padding: 4px;
+    font-size: 0.78rem;
+  }
+}
